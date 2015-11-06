@@ -4,7 +4,7 @@
               android:layout_height="match_parent"
               android:divider="?android:attr/dividerHorizontal"
               android:showDividers="middle"
-              android:orientation="vertical">
+              android:orientation="horizontal">
 
     <FrameLayout
         android:id="@+id/fragment_container"
