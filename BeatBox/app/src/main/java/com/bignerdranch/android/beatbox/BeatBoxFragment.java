@@ -25,6 +25,7 @@ public class BeatBoxFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true); // fragment does not get destroyed with activity
 
         mBeatBox = new BeatBox(getActivity());
     }
