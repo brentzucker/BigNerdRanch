@@ -69,6 +69,10 @@ public class BeatBox {
         mSoundPool.play(soundId, 1.0f, 1.0f, 1, 0, 1.0f);
     }
 
+    public void release() {
+        mSoundPool.release();
+    }
+
     public List<Sound> getSounds() {
         return mSounds;
     }

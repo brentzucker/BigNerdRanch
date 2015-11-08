@@ -40,6 +40,11 @@ public class BeatBoxFragment extends Fragment {
         return view;
     }
 
+    public void onDestroy() {
+        super.onDestroy();
+        mBeatBox.release();
+    }
+
     private class SoundHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private Button mButton;
         private Sound mSound;
