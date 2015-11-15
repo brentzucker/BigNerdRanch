@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.util.Log;
 
+import java.util.List;
+
 /**
  * Created by bvz on 11/15/15.
  */
@@ -23,7 +25,29 @@ public class PollService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.i(TAG, "Received an intent: " + intent);
+
+        String query = QueryPreferences.getStoredQuery(this);
+        String lastResultId = QueryPreferences.getPrefLastResultId(this);
+        List<GalleryItem> items;
+
+        if (query == null) {
+            items = new FlickrFetchr().fetchRecentPhotos();
+        } else {
+            items = new FlickrFetchr().searchPhotos(query);
+        }
+
+        if (items.size() == 0) {
+            return;
+        }
+
+        String resultId = items.get(0).getId();
+        if (resultId.equals(lastResultId)) {
+            Log.i(TAG, "Got an old result: " + resultId);
+        } else {
+            Log.i(TAG, "Got a new result: " + resultId);
+        }
+
+        QueryPreferences.setPrefLastResultId(this, resultId);
 
         // Check that user did not turn off networking in background applications
         if (!isNetworkAvailableAndConnected()) {
@@ -35,7 +59,7 @@ public class PollService extends IntentService {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 
         boolean isNetworkAvailable = cm.getActiveNetworkInfo() != null;
-        boolean isNetworkConnected = isNetworkAvailable && cm.getActiveNetworkInfo();
+        boolean isNetworkConnected = isNetworkAvailable && cm.getActiveNetworkInfo().isConnected();
 
         return isNetworkConnected;
     }
