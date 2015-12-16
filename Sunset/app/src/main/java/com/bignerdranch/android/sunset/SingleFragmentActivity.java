@@ -1,4 +1,4 @@
-package com.bignerdranch.android.photogallery;
+package com.bignerdranch.android.sunset;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
